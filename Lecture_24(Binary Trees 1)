@@ -1,0 +1,388 @@
+************************************************************************************************************************
+Sum of nodes
+************************************************************************************************************************
+
+/*
+
+	Following is the Binary Tree Node class structure.
+
+	class BinaryTreeNode<T> {
+		T data;
+		BinaryTreeNode<T> left;
+		BinaryTreeNode<T> right;
+
+		public BinaryTreeNode(T data) {
+			this.data = data;
+			this.left = null;
+			this.right = null;
+		}
+	}
+
+ */
+
+public class Solution {
+
+	public static int getSum(BinaryTreeNode<Integer> root) {
+		//Your code goes here.
+		if (root==null)
+        {
+            return 0;
+        }
+        int smallSum=getSum(root.left)+getSum(root.right);
+        return root.data+smallSum;
+	}
+
+}
+
+/* 		 8
+         / \
+        3   10
+       / \   \
+      1   6   14
+     / \  / \
+    -1  4 7  13
+	
+
+	Output: 8 3 10 1 6 -1 14 -1 -1 4 7 13 -1 -1 -1 -1 -1 -1 -1
+
+	Result:- 66
+	*/
+
+************************************************************************************************************************
+Preorder Binary Tree
+************************************************************************************************************************
+
+
+/*
+	
+	Following the structure used for Binary Tree
+	
+	class BinaryTreeNode<T> {
+		T data;
+		BinaryTreeNode<T> left;
+		BinaryTreeNode<T> right;
+
+		public BinaryTreeNode(T data) {
+			this.data = data;
+			this.left = null;
+			this.right = null;
+		}
+	}
+
+ */
+
+public class Solution {
+
+	public static void preOrder(BinaryTreeNode<Integer> root) {
+		//Your code goes here
+		if (root==null)
+        {
+            return;
+        }
+        System.out.print(root.data+" ");
+        preOrder(root.left);   // Pre order defined as Node--> Left--> Right
+        preOrder(root.right);
+	}
+
+}
+
+
+
+/*
+ * 8
+ * / \
+ * 3 10
+ * / \ \
+ * 1 6 14
+ * / \ / \
+ * -1 4 7 13 // -1 Represent Null Node.
+ * 
+ * Output:- 8 3 10 1 6 -1 14 -1 -1 4 7 13 -1 -1 -1 -1 -1 -1 -1
+
+
+ Result:- 8 3 1 6 4 7 10 14 13 
+ */
+ 
+************************************************************************************************************************
+PostOrder Binary Tree
+************************************************************************************************************************
+
+/*
+	
+	Following the structure used for Binary Tree
+	
+	class BinaryTreeNode<T> {
+		T data;
+		BinaryTreeNode<T> left;
+		BinaryTreeNode<T> right;
+
+		public BinaryTreeNode(T data) {
+			this.data = data;
+			this.left = null;
+			this.right = null;
+		}
+	}
+
+ */
+
+public class Solution {
+
+	public static void postOrder(BinaryTreeNode<Integer> root) {
+		//Your code goes here
+		if (root==null)
+        {
+            return;
+        }
+        postOrder(root.left);  // Left->>Right->> Node
+        postOrder(root.right);
+        System.out.print(root.data+" ");
+	}
+
+}
+	/*OUput:- 8 3 10 1 6 -1 14 -1 -1 4 7 13 -1 -1 -1 -1 -1 -1 -1
+	
+	Result:- 1 4 7 6 3 13 14 10 8 */
+  
+ ************************************************************************************************************************
+  Nodes Greater Than X
+ ************************************************************************************************************************
+ 
+ 
+  /*
+	
+	Following is the structure used to represent the Binary Tree Node
+
+	class BinaryTreeNode<T> {
+		T data;
+		BinaryTreeNode<T> left;
+		BinaryTreeNode<T> right;
+
+		public BinaryTreeNode(T data) {
+			this.data = data;
+			this.left = null;
+			this.right = null;
+		}
+	}
+
+ */
+
+	public class Solution {
+
+	public static void changeToDepthTree(BinaryTreeNode<Integer> root) {
+	    //Your code goes here
+        changeToDepthTree(root,0);
+	}
+    
+    public static void changeToDepthTree(BinaryTreeNode<Integer> root, int depth)
+    {
+        if (root==null)
+        {
+            return;
+        }
+        root.data=depth;
+        changeToDepthTree(root.left,depth+1);
+        changeToDepthTree(root.right,depth+1);
+    }
+
+}
+/*
+ * Output:
+ * 
+ * 1 4 2 3 -1 -1 -1
+ * 1 // indexing 1
+ Result:  4
+ 
+ Result:- 1 4*/
+ 
+************************************************************************************************************************ 
+ Height of Tree
+************************************************************************************************************************
+
+ /*
+	
+	Following is the structure used to represent the Binary Tree Node
+
+	class BinaryTreeNode<T> {
+		T data;
+		BinaryTreeNode<T> left;
+		BinaryTreeNode<T> right;
+
+		public BinaryTreeNode(T data) {
+			this.data = data;
+			this.left = null;
+			this.right = null;
+		}
+	}
+
+ */
+
+public class Solution {
+
+	public static int height(BinaryTreeNode<Integer> root) {
+		//Your code goes here
+		 if (root==null)
+        {
+            return 0;
+        }
+        
+        int smallLeftOutput=height(root.left);
+        int smallRightOutput=height(root.right);
+        if (smallLeftOutput>smallRightOutput)
+        {
+            return smallLeftOutput+1;
+        }
+        else
+        {
+            return smallRightOutput+1;
+        }
+	}
+
+}
+	/*Ouput: 10 20 30 40 50 -1 -1 -1 -1 -1 -1
+	
+	Result: 3*/
+
+	/*
+	 10  // Height 1
+   /  \
+  20  30 // Height 2 
+ /  \
+40  50 // Height 3
+	
+	*/
+  
+************************************************************************************************************************
+Replace Node with Depth
+************************************************************************************************************************
+/*
+	
+	Following is the structure used to represent the Binary Tree Node
+
+	class BinaryTreeNode<T> {
+		T data;
+		BinaryTreeNode<T> left;
+		BinaryTreeNode<T> right;
+
+		public BinaryTreeNode(T data) {
+			this.data = data;
+			this.left = null;
+			this.right = null;
+		}
+	}
+
+ */
+
+	public class Solution {
+
+	public static void changeToDepthTree(BinaryTreeNode<Integer> root) {
+	    //Your code goes here
+        changeToDepthTree(root,0);
+	}
+    
+    public static void changeToDepthTree(BinaryTreeNode<Integer> root, int depth)
+    {
+        if (root==null)
+        {
+            return;
+        }
+        root.data=depth;
+        changeToDepthTree(root.left,depth+1);
+        changeToDepthTree(root.right,depth+1);
+    }
+
+}
+/*
+ * Output:
+ * 
+ * 1 4 2 3 -1 -1 -1
+ * 1 // indexing 1
+ Result:  4
+ 
+ Result:- 1 4*/
+
+
+************************************************************************************************************************
+Assignment
+************************************************************************************************************************
+************************************************************************************************************************
+Is Node Represent
+************************************************************************************************************************
+
+/*
+	
+	Following is the structure used to represent the Binary Tree Node
+
+	class BinaryTreeNode<T> {
+		T data;
+		BinaryTreeNode<T> left;
+		BinaryTreeNode<T> right;
+
+		public BinaryTreeNode(T data) {
+			this.data = data;
+			this.left = null;
+			this.right = null;
+		}
+	}
+
+*/
+
+public class Solution {
+
+	public static boolean isNodePresent(BinaryTreeNode<Integer> root, int x) {
+	    //Your code goes here
+		 if (root == null) {
+            return false;
+        }
+
+        if (root.data == x) {
+            return true;
+        }
+
+        boolean isPresentInLeft = isNodePresent(root.left, x);
+        boolean isPresentInRight = isNodePresent(root.right, x);
+
+        return isPresentInLeft || isPresentInRight;
+    }
+}
+
+************************************************************************************************************************
+Nodes without Siblings
+************************************************************************************************************************
+/*
+	
+	Following is the structure used to represent the Binary Tree Node
+
+	class BinaryTreeNode<T> {
+		T data;
+		BinaryTreeNode<T> left;
+		BinaryTreeNode<T> right;
+
+		public BinaryTreeNode(T data) {
+			this.data = data;
+			this.left = null;
+			this.right = null;
+		}
+	}
+
+*/
+
+public class Solution {
+
+	public static void printNodesWithoutSibling(BinaryTreeNode<Integer> root) {
+		//Your code goes here
+		if (root == null) {
+            return;
+        }
+
+        if (root.left == null && root.right != null) {
+            System.out.print(root.right.data + " ");
+        } else if (root.left != null && root.right == null) {
+            System.out.print(root.left.data + " ");
+        }
+
+        printNodesWithoutSibling(root.left);
+        printNodesWithoutSibling(root.right);
+    }
+
+}
+  
