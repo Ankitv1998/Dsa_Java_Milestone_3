@@ -1,0 +1,383 @@
+****************************************************************************************************************************
+Find path in BST
+****************************************************************************************************************************
+
+
+import java.util.ArrayList;
+
+
+
+	/*
+	 * Binary Tree Node class
+	 * 
+	 * class BinaryTreeNode<T> { 
+	 * 		T data; 
+	 * 		BinaryTreeNode<T> left; 
+	 * 		BinaryTreeNode<T> right;
+	 * 		public BinaryTreeNode(T data) 
+	 * 		{ 
+	 * 			this.data = data; 
+	 * 		}
+	 * }
+	 */
+
+
+
+public class Solution {
+	/*
+	 * Your class should be named Solution
+	 * Don't write main().
+	 * Don't read input, it is passed as function argument.
+	 * Return output and don't print it.
+	 * Taking input and printing output is handled automatically.
+	 */
+
+    public static ArrayList<Integer> getPath(BinaryTreeNode<Integer> root, int data){
+        ArrayList<Integer> path = new ArrayList<Integer>();
+        if (root == null) {
+            return path;
+        }
+        if (root.data == data) {
+            path.add(root.data);
+            return path;
+        }
+        ArrayList<Integer> leftPath = getPath(root.left, data);
+        if (!leftPath.isEmpty()) {
+            leftPath.add(root.data);
+            return leftPath;
+        }
+        ArrayList<Integer> rightPath = getPath(root.right, data);
+        if (!rightPath.isEmpty()) {
+            rightPath.add(root.data);
+            return rightPath;
+        }
+        return path;
+    }
+}
+
+****************************************************************************************************************************		
+BST Class
+****************************************************************************************************************************
+
+
+/*
+ * Binary Tree Node class
+ * 
+ * class BinaryTreeNode<T> { 
+ * 		T data; 
+ * 		BinaryTreeNode<T> left; 
+ * 		BinaryTreeNode<T> right;
+ * 		public BinaryTreeNode(T data) 
+ * 		{ 
+ * 			this.data = data; 
+ * 		}
+ * }
+ */
+
+ /* 
+ * Main Method being used internally
+ *	public static void main(String[] args) throws IOException {
+ *		BinarySearchTree bst = new BinarySearchTree();
+ *		int choice, input;
+ *		int q = Integer.parseInt(br.readLine());
+ *		while (q-- > 0) {
+ *			st = new StringTokenizer(br.readLine());
+ *			choice = Integer.parseInt(st.nextToken());
+ *			switch (choice) {
+ *			case 1:
+ *				input = Integer.parseInt(st.nextToken());
+ *				bst.insert(input);
+ *				break;
+ *				case 2:
+ *				input = Integer.parseInt(st.nextToken());
+ *				bst.remove(input);
+ *				break;
+ *			case 3:
+ *				input = Integer.parseInt(st.nextToken());
+ *				System.out.println(bst.search(input));
+ *				break;
+ *			default:
+ *				bst.printTree();
+ *				break;
+ *			}
+ *		}
+ *	}
+ */
+
+	public class BinarySearchTree {
+		private Node root;
+
+		private class Node {
+			private int data;
+			private Node left;
+			private Node right;
+
+			public Node(int data) {
+				this.data = data;
+			}
+		}
+
+		public void insert(int data) {
+			root = insert(root, data);
+		}
+
+		private Node insert(Node root, int data) {
+			if (root == null) {
+				return new Node(data);
+			}
+			if (data < root.data) {
+				root.left = insert(root.left, data);
+			} else if (data == root.data) {
+				root.left = insert(root.left, data);
+			} else {
+				root.right = insert(root.right, data);
+			}
+			return root;
+		}
+
+		public boolean search(int data) {
+			return search(root, data);
+		}
+
+		private boolean search(Node root, int data) {
+			if (root == null) {
+				return false;
+			}
+			if (root.data == data) {
+				return true;
+			} else if (data < root.data) {
+				return search(root.left, data);
+			} else {
+				return search(root.right, data);
+			}
+		}
+
+		public void remove(int data) {
+			root = remove(root, data);
+		}
+
+		private Node remove(Node root, int data) {
+			if (root == null) {
+				return null;
+			}
+			if (data < root.data) {
+				root.left = remove(root.left, data);
+			} else if (data > root.data) {
+				root.right = remove(root.right, data);
+			} else {
+				if (root.left == null && root.right == null) {
+					return null;
+				} else if (root.left == null) {
+					return root.right;
+				} else if (root.right == null) {
+					return root.left;
+				} else {
+					Node minRight = findMin(root.right);
+					root.data = minRight.data;
+					root.right = remove(root.right, minRight.data);
+				}
+			}
+			return root;
+		}
+
+		private Node findMin(Node root) {
+			if (root.left == null) {
+				return root;
+			} else {
+				return findMin(root.left);
+			}
+		}
+
+		public void printTree() {
+			printTree(root);
+		}
+
+		private void printTree(Node root) {
+			if (root == null) {
+				return;
+			}
+			System.out.print(root.data + ":");
+			if (root.left != null) {
+				System.out.print("L:" + root.left.data + ",");
+			}
+			if (root.right != null) {
+				System.out.print("R:" + root.right.data);
+			}
+			System.out.println();
+			printTree(root.left);
+			printTree(root.right);
+		}
+	}
+
+****************************************************************************************************************************
+Practice
+****************************************************************************************************************************
+LevelWise Linked list
+****************************************************************************************************************************
+
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class Solution {
+
+    public static ArrayList<LinkedListNode<Integer>> constructLinkedListForEachLevel(BinaryTreeNode<Integer> root) {
+        ArrayList<LinkedListNode<Integer>> result = new ArrayList<>();
+        if (root == null) {
+            return result;
+        }
+
+        Queue<BinaryTreeNode<Integer>> queue = new LinkedList<>();
+        queue.offer(root);
+
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            LinkedListNode<Integer> head = null;
+            LinkedListNode<Integer> tail = null;
+
+            for (int i = 0; i < size; i++) {
+                BinaryTreeNode<Integer> node = queue.poll();
+                LinkedListNode<Integer> listNode = new LinkedListNode<>(node.data);
+
+                if (head == null) {
+                    head = listNode;
+                    tail = listNode;
+                } else {
+                    tail.next = listNode;
+                    tail = tail.next;
+                }
+
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
+            }
+
+            result.add(head);
+        }
+
+        return result;
+    }
+}
+
+****************************************************************************************************************************
+Largest BST
+****************************************************************************************************************************
+
+public class Solution {
+	/*
+	 * BinaryTreeNode class
+	 * 
+	 * class BinaryTreeNode<T> 
+	 * { 
+	 * 		T data; 
+	 * 		BinaryTreeNode<T> left; 
+	 * 		BinaryTreeNode<T> right;
+	 *		public BinaryTreeNode(T data) 
+	 *		{
+	 *  		this.data = data; 
+	 *  	} 
+	 *  }
+	 */
+	private static class BSTDetails {
+		int size;
+		int min;
+		int max;
+		int height;
+		boolean isBST;
+
+		BSTDetails() {
+			size = 0;
+			min = Integer.MAX_VALUE;
+			max = Integer.MIN_VALUE;
+			height = 0;
+			isBST = true;
+		}
+	}
+	public static int largestBSTSubtree(BinaryTreeNode<Integer> root) {
+		// Write your code here
+		   return largestBSTSubtreeHelper(root).height;
+    }
+    
+    private static BSTDetails largestBSTSubtreeHelper(BinaryTreeNode<Integer> root) {
+        if (root == null) {
+            return new BSTDetails();
+        }
+        
+        BSTDetails leftSubtreeDetails = largestBSTSubtreeHelper(root.left);
+        BSTDetails rightSubtreeDetails = largestBSTSubtreeHelper(root.right);
+        
+        BSTDetails bstDetails = new BSTDetails();
+        
+        if (leftSubtreeDetails.isBST && rightSubtreeDetails.isBST
+            && root.data > leftSubtreeDetails.max && root.data < rightSubtreeDetails.min) {
+            
+            bstDetails.isBST = true;
+            bstDetails.size = leftSubtreeDetails.size + rightSubtreeDetails.size + 1;
+            bstDetails.min = Math.min(root.data, Math.min(leftSubtreeDetails.min, rightSubtreeDetails.min));
+            bstDetails.max = Math.max(root.data, Math.max(leftSubtreeDetails.max, rightSubtreeDetails.max));
+            bstDetails.height = Math.max(leftSubtreeDetails.height, rightSubtreeDetails.height) + 1;
+            
+        } else {
+            bstDetails.isBST = false;
+            bstDetails.size = Math.max(leftSubtreeDetails.size, rightSubtreeDetails.size);
+            bstDetails.height = Math.max(leftSubtreeDetails.height, rightSubtreeDetails.height);
+        }
+        
+        return bstDetails;
+    }
+}
+
+****************************************************************************************************************************
+Pair Sum in BST
+****************************************************************************************************************************
+import java.util.ArrayList;
+
+public class Solution {
+    /*
+     * BinaryTreeNode class
+     * 
+     * class BinaryTreeNode<T> 
+     * { 
+     *     T data; 
+     *     BinaryTreeNode<T> left; 
+     *     BinaryTreeNode<T> right;
+     *     public BinaryTreeNode(T data) 
+     *     {
+     *         this.data = data; 
+     *     } 
+     * }
+     */
+
+    public static void printNodesSumToS(BinaryTreeNode<Integer> root, int s) {
+        ArrayList<Integer> inorderList = new ArrayList<>();
+        inorderTraversal(root, inorderList);
+
+        int left = 0, right = inorderList.size() - 1;
+        while (left < right) {
+            int sum = inorderList.get(left) + inorderList.get(right);
+            if (sum == s) {
+                System.out.println(inorderList.get(left) + " " + inorderList.get(right));
+                left++;
+                right--;
+            } else if (sum < s) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+    }
+
+    private static void inorderTraversal(BinaryTreeNode<Integer> root, ArrayList<Integer> inorderList) {
+        if (root == null) {
+            return;
+        }
+        inorderTraversal(root.left, inorderList);
+        inorderList.add(root.data);
+        inorderTraversal(root.right, inorderList);
+    }
+}
+
