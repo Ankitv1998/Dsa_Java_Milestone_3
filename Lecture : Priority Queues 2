@@ -1,0 +1,238 @@
+****************************************************************************************************************************
+****************************************************************************************************************************
+Inplace Heap Sort
+****************************************************************************************************************************
+public class Solution {
+
+	public static void inplaceHeapSort(int arr[]) {
+		/* Your class should be named Solution
+		* Don't write main().
+		* Don't read input, it is passed as function argument.
+		* Change in the given input itself.
+		* Taking input and printing output is handled automatically.
+		*/
+		
+        //Find length of arr
+		int n=arr.length;
+		//Step 1 - Build heap using optimized method with time complexity O(n)
+		for(int i=(n/2)-1;i>=0;i--)
+		{
+			//Perform down-heapfiy operation for node at index i, starting at index i and going to down to the last node (end of arr)
+			downHeapify(arr,i,n);
+		}
+		
+		//Step 2 - Perform remove minimum element, put them at respective last position in the heap and heap re-balancing until all the elements are out of the heap
+		for(int i=n-1;i>=0;i--)
+		{
+			int temp=arr[i];
+			arr[i]=arr[0];
+			arr[0]=temp;
+			
+			//Apply down-heapify from index 0 to index i
+			downHeapify(arr,0,i);
+		}
+	}
+    
+    //Down-heapify for min. heap order property
+	private static void downHeapify(int[] arr, int i, int n)
+	{
+		int parentIndex=i;
+		int leftChildIndex=2*parentIndex+1, rightChildIndex=2*parentIndex+2;
+		
+		while(leftChildIndex<n)
+		{
+			int minIndex=parentIndex;
+			if(arr[minIndex]>arr[leftChildIndex])
+				minIndex=leftChildIndex;
+			
+			if(rightChildIndex<n && arr[minIndex]>arr[rightChildIndex])
+				minIndex=rightChildIndex;
+			
+			if(minIndex==parentIndex)
+				return;
+			
+			int temp=arr[parentIndex];
+			arr[parentIndex]=arr[minIndex];
+			arr[minIndex]=temp;
+			
+			parentIndex=minIndex;
+			leftChildIndex=2*parentIndex+1;
+			rightChildIndex=2*parentIndex+2;
+			
+		}
+	}
+	}
+  
+  ****************************************************************************************************************************
+  K Largest Elements
+  ****************************************************************************************************************************
+  
+  import java.util.ArrayList;
+import java.util.PriorityQueue;
+
+public class Solution {
+
+	public static ArrayList<Integer> kLargest(int input[], int k) {
+		// Create a priority queue of size k
+		PriorityQueue<Integer> pq = new PriorityQueue<>(k);
+		
+		// Add first k elements to the priority queue
+		for(int i=0;i<k;i++)
+			pq.add(input[i]);
+		
+		// Compare remaining elements with the minimum element in priority queue
+		// and replace if it is greater than the minimum element
+		for(int i=k;i<input.length;i++) {
+			if(input[i]>pq.peek()) {
+				pq.poll();
+				pq.add(input[i]);
+			}
+		}
+		
+		// Create an ArrayList to store the k largest elements
+		ArrayList<Integer> result = new ArrayList<>();
+		while(!pq.isEmpty())
+			result.add(pq.poll());
+		
+		return result;
+	}
+}
+
+****************************************************************************************************************************
+K Smallest Elements
+****************************************************************************************************************************
+
+
+import java.util.ArrayList;
+import java.util.PriorityQueue;
+
+public class Solution {
+
+	public static ArrayList<Integer> kSmallest(int n, int[] input, int k) {
+		// Create a priority queue of size k with elements in reverse order
+		PriorityQueue<Integer> pq = new PriorityQueue<>(k, (a, b) -> b - a);
+		
+		// Add first k elements to the priority queue
+		for(int i=0;i<k;i++)
+			pq.add(input[i]);
+		
+		// Compare remaining elements with the maximum element in priority queue
+		// and replace if it is smaller than the maximum element
+		for(int i=k;i<n;i++) {
+			if(input[i]<pq.peek()) {
+				pq.poll();
+				pq.add(input[i]);
+			}
+		}
+		
+		// Create an ArrayList to store the k smallest elements in ascending order
+		ArrayList<Integer> result = new ArrayList<>();
+		while(!pq.isEmpty())
+			result.add(pq.poll());
+		
+		// Reverse the order of elements in ArrayList to get k smallest elements in descending order
+		int left = 0, right = result.size()-1;
+		while(left<right) {
+			int temp = result.get(left);
+			result.set(left, result.get(right));
+			result.set(right, temp);
+			left++;
+			right--;
+		}
+		
+		return result;
+	}
+}
+
+****************************************************************************************************************************
+Assignment
+****************************************************************************************************************************
+Check Max-Heap
+****************************************************************************************************************************
+
+public class Solution {
+    public static boolean checkMaxHeap(int arr[]) {
+        int n = arr.length;
+        for (int i = 0; i <= (n / 2) - 1; i++) {
+            int leftChildIndex = 2 * i + 1;
+            int rightChildIndex = 2 * i + 2;
+            if (leftChildIndex < n && arr[leftChildIndex] > arr[i]) {
+                return false;
+            }
+            if (rightChildIndex < n && arr[rightChildIndex] > arr[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+
+****************************************************************************************************************************
+Kth largest element
+****************************************************************************************************************************
+
+
+import java.util.PriorityQueue;
+
+public class Solution {
+
+	public static int kthLargest(int n, int[] input, int k) {
+		// Create a min heap of size k
+		PriorityQueue<Integer> heap = new PriorityQueue<>(k);
+
+		// Insert first k elements into the heap
+		for (int i = 0; i < k; i++) {
+			heap.offer(input[i]);
+		}
+
+		// For each remaining element, if it is greater than the smallest
+		// element in the heap, replace the smallest element with it
+		for (int i = k; i < n; i++) {
+			int current = input[i];
+			if (current > heap.peek()) {
+				heap.poll();
+				heap.offer(current);
+			}
+		}
+
+		// Return the kth largest element
+		return heap.peek();
+	}
+}
+
+****************************************************************************************************************************
+Buy the ticket
+****************************************************************************************************************************
+
+
+import java.util.*;
+
+public class Solution {
+
+	public static int buyTicket(int[] priorities, int k) {
+		Queue<Integer> queue = new LinkedList<>();
+		PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+		int time = 0;
+		for (int i = 0; i < priorities.length; i++) {
+			queue.offer(i);
+			maxHeap.offer(priorities[i]);
+		}
+		while (!maxHeap.isEmpty()) {
+			int maxPriority = maxHeap.peek();
+			int front = queue.peek();
+			if (priorities[front] == maxPriority) {
+				time++;
+				if (front == k) {
+					return time;
+				}
+				queue.poll();
+				maxHeap.poll();
+			} else {
+				queue.offer(queue.poll());
+			}
+		}
+		return time;
+	}
+}
+
