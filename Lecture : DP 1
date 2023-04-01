@@ -1,0 +1,198 @@
+***************************************************************************************************************************
+***************************************************************************************************************************
+Stair Case
+***************************************************************************************************************************
+
+
+public class Solution {
+    public static long staircase(int n) {
+        if (n == 0 || n == 1) {
+            return 1;
+        }
+        if (n == 2) {
+            return 2;
+        }
+        
+        long[] dp = new long[n+1];
+        dp[0] = 1;
+        dp[1] = 1;
+        dp[2] = 2;
+        
+        for (int i = 3; i <= n; i++) {
+            dp[i] = dp[i-1] + dp[i-2] + dp[i-3];
+        }
+        
+        return dp[n];
+    }
+}
+
+
+Min Steps To One
+
+public class Solution {
+	public static int countMinStepsToOne(int n) {
+		// base case
+		if (n == 1) {
+			return 0;
+		}
+		// subtract 1 from n
+		int steps = countMinStepsToOne(n - 1);
+		// divide by 2 if possible
+		if (n % 2 == 0) {
+			int stepsDivBy2 = countMinStepsToOne(n / 2);
+			steps = Math.min(steps, stepsDivBy2);
+		}
+		// divide by 3 if possible
+		if (n % 3 == 0) {
+			int stepsDivBy3 = countMinStepsToOne(n / 3);
+			steps = Math.min(steps, stepsDivBy3);
+		}
+		// add 1 to the number of steps and return
+		return steps + 1;
+	}
+}
+
+***************************************************************************************************************************
+Min Steps To 1 Using DP
+***************************************************************************************************************************
+
+
+public class Solution {
+	public static int countMinStepsToOne(int n) {
+		if (n == 1) {
+			return 0;
+		}
+
+		int[] dp = new int[n + 1];
+		dp[1] = 0;
+
+		for (int i = 2; i <= n; i++) {
+			int minSteps = dp[i - 1];
+
+			if (i % 2 == 0) {
+				minSteps = Math.min(minSteps, dp[i / 2]);
+			}
+
+			if (i % 3 == 0) {
+				minSteps = Math.min(minSteps, dp[i / 3]);
+			}
+
+			dp[i] = 1 + minSteps;
+		}
+
+		return dp[n];
+	}
+}
+
+***************************************************************************************************************************
+Minimum Number Of Squares
+***************************************************************************************************************************
+
+
+import java.util.Arrays;
+
+public class Solution {
+	public static int minCount(int n) {
+		int[] dp = new int[n + 1];
+		Arrays.fill(dp, Integer.MAX_VALUE); // fill with a large value
+		dp[0] = 0;
+		dp[1] = 1;
+		for (int i = 2; i <= n; i++) {
+			for (int j = 1; j * j <= i; j++) {
+				dp[i] = Math.min(dp[i], dp[i - j * j] + 1);
+			}
+		}
+		return dp[n];
+	}
+}
+
+***************************************************************************************************************************
+Assignment
+***************************************************************************************************************************
+***************************************************************************************************************************
+Byte Landian
+***************************************************************************************************************************
+
+
+import java.util.HashMap;
+
+public class Solution {
+    
+    public static long bytelandian(long n, HashMap<Long, Long> memo) {
+        // Base case: if n is less than or equal to 4, then we can't make any more money from it
+        if (n <= 4) {
+            return n;
+        }
+        
+        // Check if we've already computed the answer for this value of n
+        if (memo.containsKey(n)) {
+            return memo.get(n);
+        }
+        
+        // Otherwise, compute the answer recursively and memoize the result
+        long ans = bytelandian(n/2, memo) + bytelandian(n/3, memo) + bytelandian(n/4, memo);
+        memo.put(n, Math.max(n, ans));
+        return Math.max(n, ans);
+    }
+    
+    public static void main(String[] args) {
+        long n = 12;
+        HashMap<Long, Long> memo = new HashMap<Long, Long>();
+        long ans = bytelandian(n, memo);
+        System.out.println(ans);
+    }
+}
+
+***************************************************************************************************************************
+Loot Houses
+***************************************************************************************************************************
+
+
+public class Solution {
+    public static int maxMoneyLooted(int[] houses) {
+        int n = houses.length;
+        if (n == 0) {
+            return 0;
+        } else if (n == 1) {
+            return houses[0];
+        } else if (n == 2) {
+            return Math.max(houses[0], houses[1]);
+        } else {
+            int[] dp = new int[n];
+            dp[0] = houses[0];
+            dp[1] = Math.max(houses[0], houses[1]);
+            for (int i = 2; i < n; i++) {
+                dp[i] = Math.max(dp[i - 1], dp[i - 2] + houses[i]);
+            }
+            return dp[n - 1];
+        }
+    }
+}
+
+
+***************************************************************************************************************************
+Coin Tower
+***************************************************************************************************************************
+
+
+public class Solution {
+    public static String findWinner(int n, int x, int y) {
+        boolean[] dp = new boolean[n + 1];
+        dp[0] = false;  // If no coin is present, Whis loses
+        dp[1] = true;   // If only one coin is present, Beerus wins
+        for (int i = 2; i <= n; i++) {
+            if (i - 1 >= 0 && !dp[i - 1]) {
+                dp[i] = true;   // If removing 1 coin makes Whis lose, then Beerus will win by removing 1 coin
+            } else if (i - x >= 0 && !dp[i - x]) {
+                dp[i] = true;   // If removing x coins makes Whis lose, then Beerus will win by removing x coins
+            } else if (i - y >= 0 && !dp[i - y]) {
+                dp[i] = true;   // If removing y coins makes Whis lose, then Beerus will win by removing y coins
+            }
+        }
+        if (dp[n]) {
+            return "Beerus";    // If dp[n] is true, then Beerus wins
+        } else {
+            return "Whis";      // If dp[n] is false, then Whis wins
+        }
+    }
+}
