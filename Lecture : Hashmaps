@@ -1,0 +1,314 @@
+****************************************************************************************************************************
+****************************************************************************************************************************
+Maximum Frequency Number
+****************************************************************************************************************************
+
+
+import java.util.HashMap;
+
+public class Solution {
+
+	/*
+	 * Your class should be named Solution
+	 * Don't write main().
+	 * Don't read input, it is passed as function argument.
+	 * Return output and don't print it.
+	 * Taking input and printing output is handled automatically.
+	 */
+	public static int maxFrequencyNumber(int[] arr) {
+		// Create a hash map to store the frequency of each element
+		HashMap<Integer, Integer> frequencyMap = new HashMap<>();
+		for (int i = 0; i < arr.length; i++) {
+			if (frequencyMap.containsKey(arr[i])) {
+				frequencyMap.put(arr[i], frequencyMap.get(arr[i]) + 1);
+			} else {
+				frequencyMap.put(arr[i], 1);
+			}
+		}
+
+		// Find the element with maximum frequency
+		int maxFrequency = 0;
+		int maxFrequencyNumber = arr[0];
+		for (int i = 0; i < arr.length; i++) {
+			if (frequencyMap.get(arr[i]) > maxFrequency) {
+				maxFrequency = frequencyMap.get(arr[i]);
+				maxFrequencyNumber = arr[i];
+			}
+		}
+		return maxFrequencyNumber;
+	}
+}
+
+****************************************************************************************************************************
+Print Intersection
+****************************************************************************************************************************
+
+
+import java.util.*;
+
+public class Solution {
+
+    public static void intersection(int[] arr1, int[] arr2) {
+        Arrays.sort(arr1);
+        Arrays.sort(arr2);
+
+        int i = 0, j = 0;
+
+        while (i < arr1.length && j < arr2.length) {
+            if (arr1[i] == arr2[j]) {
+                System.out.print(arr1[i] + " ");
+                i++;
+                j++;
+            } else if (arr1[i] < arr2[j]) {
+                i++;
+            } else {
+                j++;
+            }
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();
+
+        for (int i = 0; i < t; i++) {
+            int n = sc.nextInt();
+            int[] arr1 = new int[n];
+            for (int j = 0; j < n; j++) {
+                arr1[j] = sc.nextInt();
+            }
+
+            int m = sc.nextInt();
+            int[] arr2 = new int[m];
+            for (int j = 0; j < m; j++) {
+                arr2[j] = sc.nextInt();
+            }
+
+            intersection(arr1, arr2);
+        }
+    }
+}
+
+
+****************************************************************************************************************************
+Pair Sum to 0
+****************************************************************************************************************************
+
+
+import java.util.*;
+
+public class Solution {
+	public static int PairSum(int[] input, int size) {
+		HashMap<Integer, Integer> map = new HashMap<>();
+		int count = 0;
+		for (int i = 0; i < size; i++) {
+			int complement = -input[i];
+			if (map.containsKey(complement)) {
+				count += map.get(complement);
+			}
+			if (map.containsKey(input[i])) {
+				map.put(input[i], map.get(input[i]) + 1);
+			} else {
+				map.put(input[i], 1);
+			}
+		}
+		return count;
+	}
+}
+
+****************************************************************************************************************************
+Assignment
+****************************************************************************************************************************
+Extract Unique characters
+****************************************************************************************************************************
+
+
+
+import java.util.HashMap;
+
+public class Solution {
+
+	public static String uniqueChar(String str){
+		/* Your class should be named Solution
+		 * Don't write main().
+		 * Don't read input, it is passed as function argument.
+		 * Return output and don't print it.
+	 	 * Taking input and printing output is handled automatically.
+		*/
+
+		if (str == null || str.length() == 0) {
+            return str;
+        }
+        StringBuilder result = new StringBuilder();
+        HashMap<Character, Boolean> seen = new HashMap<Character, Boolean>();
+        for (int i = 0; i < str.length(); i++) {
+            char current = str.charAt(i);
+            if (!seen.containsKey(current)) {
+                seen.put(current, true);
+                result.append(current);
+            }
+        }
+        return result.toString();
+	}
+}
+
+
+****************************************************************************************************************************
+Longest Consecutive Sequence
+****************************************************************************************************************************
+
+
+import java.util.Map;
+import java.util.HashMap;
+import java.util.ArrayList;
+
+public class Solution {
+	public static ArrayList<Integer> longestConsecutiveIncreasingSequence(int[] arr) {
+		/*
+		 * Your class should be named Solution
+		 * Don't write main().
+		 * Don't read input, it is passed as function argument.
+		 * Return output and don't print it.
+		 * Taking input and printing output is handled automatically.
+		 */
+		ArrayList<Integer> output = new ArrayList<>();
+		HashMap<Integer, Boolean> map = new HashMap<>();
+		HashMap<Integer, Integer> lenMap = new HashMap<>();
+		for (int i = 0; i < arr.length; i++) {
+			map.put(arr[i], true);
+		}
+		int maxStart = -1, maxLen = 0;
+		boolean startCheck = true;
+
+		for (int i : arr) {
+			if (map.get(i)) {
+				int currStart = i, currLen = 1;
+				// System.out.println("Current start of sequence: "+currStart);
+				// System.out.println("Current length of sequence: "+currLen);
+				boolean flag = true;
+				map.put(i, false);
+
+				int ahead = i + 1;
+				// System.out.println("Checking for values ahead");
+				// System.out.println();
+				while (flag) {
+					if (map.containsKey(ahead)) {
+						// System.out.println(ahead+" is included in sequence and status updates to
+						// false");
+						currLen = currLen + 1;
+						map.put(ahead, false);
+						ahead = ahead + 1;
+						// System.out.println("Current length of sequence: "+currLen);
+					} else {
+						flag = false;
+					}
+				}
+				flag = true;
+				int before = i - 1;
+				// System.out.println();
+				// System.out.println("Checking for values before");
+				while (flag) {
+					if (map.containsKey(before)) {
+						// System.out.println(before+" is included in sequence and status updates to
+						// false");
+						currLen = currLen + 1;
+						currStart = before;
+						map.put(before, false);
+						before = before - 1;
+						// System.out.println("Current length of sequence: "+currLen);
+					} else {
+						flag = false;
+					}
+				}
+
+				System.out.println();
+				if (currLen >= maxLen) {
+					maxLen = currLen;
+					maxStart = currStart;
+					lenMap.put(maxStart, maxLen);
+				}
+			}
+		
+		}
+
+	
+		for (int i = 0; i < arr.length; i++) {
+			if (lenMap.containsKey(arr[i]) && lenMap.get(arr[i]) >= maxLen) {
+				maxStart = arr[i];
+				maxLen = lenMap.get(arr[i]);
+				break;
+			}
+		}
+		output.add(maxStart);
+		output.add(maxStart + maxLen - 1);
+		return output;
+	}
+}
+
+
+****************************************************************************************************************************
+Pairs with difference K
+****************************************************************************************************************************
+
+
+import java.util.HashMap;
+
+public class Solution {
+
+	public static int getPairsWithDifferenceK(int arr[], int k) {
+		HashMap<Integer, Integer> freqMap = new HashMap<Integer, Integer>();
+		int count = 0;
+		for (int i = 0; i < arr.length; i++) {
+			int num = arr[i];
+			int diff1 = num - k;
+			int diff2 = num + k;
+			if (freqMap.containsKey(diff1)) {
+				count += freqMap.get(diff1);
+			}
+			if (freqMap.containsKey(diff2) && diff1 != diff2) {
+				count += freqMap.get(diff2);
+			}
+			if (freqMap.containsKey(num)) {
+				freqMap.put(num, freqMap.get(num) + 1);
+			} else {
+				freqMap.put(num, 1);
+			}
+		}
+		return count;
+	}
+}
+
+****************************************************************************************************************************
+Longest subarray zero sum
+****************************************************************************************************************************
+
+
+import java.util.*;
+
+public class Solution {
+	public static int lengthOfLongestSubsetWithZeroSum(int arr[]) {
+		int n = arr.length;
+		int maxLength = 0;
+		Map<Integer, Integer> sumToIndex = new HashMap<>();
+		int sum = 0;
+		for (int i = 0; i < n; i++) {
+			sum += arr[i];
+			if (arr[i] == 0 && maxLength == 0) {
+				maxLength = 1;
+			}
+			if (sum == 0) {
+				maxLength = i + 1;
+			}
+			Integer prevIndex = sumToIndex.get(sum);
+			if (prevIndex != null) {
+				maxLength = Math.max(maxLength, i - prevIndex);
+			} else {
+				sumToIndex.put(sum, i);
+			}
+		}
+		return maxLength;
+	}
+}
+
+
