@@ -1,0 +1,572 @@
+****************************************************************************************************************************
+****************************************************************************************************************************
+Sum of All Nodes
+****************************************************************************************************************************
+
+public class Solution {
+
+/*	TreeNode structure 
+ * 
+ * class TreeNode<T> {
+		T data;
+		ArrayList<TreeNode<T>> children;
+
+		TreeNode(T data){
+			this.data = data;
+			children = new ArrayList<TreeNode<T>>();
+		}
+	}*/
+	
+	
+	
+	public static int sumOfAllNode(TreeNode<Integer> root){
+		if (root == null) {
+			return 0;
+		}
+		int sum = root.data;
+		for (TreeNode<Integer> child : root.children) {
+			sum += sumOfAllNode(child);
+		}
+		return sum;
+	}
+}
+
+
+****************************************************************************************************************************
+Print Tree Level wise
+****************************************************************************************************************************
+
+
+import java.util.*;
+public class Solution {
+
+/*	TreeNode structure 
+ * 
+ * class TreeNode<T> {
+		T data;
+		ArrayList<TreeNode<T>> children;
+
+		TreeNode(T data){
+			this.data = data;
+			children = new ArrayList<TreeNode<T>>();
+		}
+	}*/
+	
+	
+	
+	public static void printLevelWise(TreeNode<Integer> root)
+	{
+		/* Your class should be named Solution 
+ 		 * Don't write main(). 
+		 * Don't read input, it is passed as function argument. 
+		 * Print output and don't return it. 
+		 * Taking input is handled automatically. 
+		 */
+			if (root == null) {
+				return;
+			}
+
+			Queue<TreeNode<Integer>> queue = new LinkedList<>();
+			queue.add(root);
+
+			while (!queue.isEmpty()) {
+				int levelSize = queue.size();
+				for (int i = 0; i < levelSize; i++) {
+					TreeNode<Integer> node = queue.poll();
+					System.out.print(node.data + " ");
+					for (TreeNode<Integer> child : node.children) {
+						queue.add(child);
+					}
+				}
+				System.out.println();
+			}
+		}
+	}
+	
+****************************************************************************************************************************
+Code : Number of nodes greater than x
+****************************************************************************************************************************
+
+
+public class Solution {
+
+/*	TreeNode class 
+ * 
+ * class TreeNode<T> {
+		T data;
+		ArrayList<TreeNode<T>> children;
+
+		TreeNode(T data){
+			this.data = data;
+			children = new ArrayList<TreeNode<T>>();
+		}
+	}*/
+
+	
+	public static int numNodeGreater(TreeNode<Integer> root,int x){
+
+		// Write your code here		
+	if (root == null) {
+        return 0;
+    }
+    int count = 0;
+    if (root.data > x) {
+        count++;
+    }
+    for (int i = 0; i < root.children.size(); i++) {
+        count += numNodeGreater(root.children.get(i), x);
+    }
+    return count;
+
+}
+}
+
+****************************************************************************************************************************
+Code : Find Height
+****************************************************************************************************************************
+
+
+public class Solution {
+
+	/*	TreeNode structure 
+	 * 
+	 * class TreeNode<T> {
+		T data;
+		ArrayList<TreeNode<T>> children;
+
+		TreeNode(T data){
+			this.data = data;
+			children = new ArrayList<TreeNode<T>>();
+		}
+	}*/
+
+	public static int getHeight(TreeNode<Integer> root){
+		/* Your class should be named Solution
+		 * Don't write main().
+		 * Don't read input, it is passed as function argument.
+		 * Return output and don't print it.
+		 * Taking input and printing output is handled automatically.
+		 */
+	if (root == null)
+	 {
+        return 0;
+     } 
+	else 
+	{
+        int maxChildHeight = 0;
+        for (int i = 0; i < root.children.size(); i++)
+		 {
+            int childHeight = getHeight(root.children.get(i));
+            maxChildHeight = Math.max(maxChildHeight, childHeight);
+        }
+        return maxChildHeight + 1;
+    }
+}
+}
+
+****************************************************************************************************************************
+Code : Count leaf nodes
+****************************************************************************************************************************
+
+
+public class Solution {
+
+/*	TreeNode structure 
+ * 
+ * class TreeNode<T> {
+		T data;
+		ArrayList<TreeNode<T>> children;
+
+		TreeNode(T data){
+			this.data = data;
+			children = new ArrayList<TreeNode<T>>();
+		}
+	}*/
+	
+	public static int countLeafNodes(TreeNode<Integer> root){
+if (root == null) 
+{
+        return 0; //false
+    } 
+	else if (root.children.isEmpty())
+	 {
+        return 1; //true
+    } 
+	else
+	 {
+        int count = 0;
+        for (int i = 0; i < root.children.size(); i++) {
+            count += countLeafNodes(root.children.get(i));
+        }
+        return count;
+    }
+}
+}
+
+****************************************************************************************************************************
+Code : Post-order Traversal
+****************************************************************************************************************************
+
+
+public class Solution {
+
+	/*	TreeNode structure 
+	 * 
+	 * class TreeNode<T> {
+		T data;
+		ArrayList<TreeNode<T>> children;
+
+		TreeNode(T data){
+			this.data = data;
+			children = new ArrayList<TreeNode<T>>();
+		}
+	}*/
+
+	public static void printPostOrder(TreeNode<Integer> root) {
+    if (root == null) {
+        return;
+    }
+    for (int i = 0; i < root.children.size(); i++) {
+        printPostOrder(root.children.get(i));
+    }
+    System.out.print(root.data + " ");
+}
+}
+
+
+****************************************************************************************************************************
+Assignment
+****************************************************************************************************************************
+Check if generic tree contain element x
+****************************************************************************************************************************
+
+public class Solution {
+
+/*	TreeNode class 
+ * 
+ * class TreeNode<T> {
+		T data;
+		ArrayList<TreeNode<T>> children;
+
+		TreeNode(T data){
+			this.data = data;
+			children = new ArrayList<TreeNode<T>>();
+		}
+	}*/
+	public static boolean checkIfContainsX(TreeNode<Integer> root, int x) {
+    if (root == null) {
+        return false;
+    }
+    if (root.data == x) {
+        return true;
+    }
+    for (int i = 0; i < root.children.size(); i++) {
+        if (checkIfContainsX(root.children.get(i), x)) {
+            return true;
+        }
+    }
+    return false;
+}
+}
+
+
+****************************************************************************************************************************
+Node having sum of children and node is max
+****************************************************************************************************************************
+
+
+public class Solution {
+
+	/*
+	 * TreeNode structure
+	 * 
+	 * class TreeNode<T> {
+	 * T data;
+	 * ArrayList<TreeNode<T>> children;
+	 * 
+	 * TreeNode(T data){
+	 * this.data = data;
+	 * children = new ArrayList<TreeNode<T>>();
+	 * }
+	 * }
+	 */
+
+	static class Pair<T> {
+		T node;
+		int sum;
+
+		Pair(T node, int sum) {
+			this.node = node;
+			this.sum = sum;
+		}
+	}
+
+	public static TreeNode<Integer> maxSumNode(TreeNode<Integer> root) {
+		Pair<TreeNode<Integer>> result = maxSumNodeHelper(root);
+		return result.node;
+	}
+
+	private static Pair<TreeNode<Integer>> maxSumNodeHelper(TreeNode<Integer> root) {
+		if (root == null) {
+			return new Pair<>(null, 0);
+		}
+
+		int sum = root.data;
+		for (TreeNode<Integer> child : root.children) {
+			sum += child.data;
+		}
+
+		Pair<TreeNode<Integer>> maxPair = new Pair<>(root, sum);
+		for (TreeNode<Integer> child : root.children) {
+			Pair<TreeNode<Integer>> childPair = maxSumNodeHelper(child);
+			if (childPair.sum > maxPair.sum) {
+				maxPair = childPair;
+			}
+		}
+
+		return maxPair;
+	}
+}
+
+****************************************************************************************************************************
+Structurally identical
+****************************************************************************************************************************
+
+
+public class Solution {
+
+    public static boolean checkIdentical(TreeNode<Integer> root1, TreeNode<Integer> root2){
+        // If both trees are null, they are structurally identical
+        if (root1 == null && root2 == null) {
+            return true;
+        }
+
+        // If only one of the trees is null, they are not structurally identical
+        if (root1 == null || root2 == null) {
+            return false;
+        }
+
+        // If the data in the current nodes is different, they are not structurally identical
+        if (!root1.data.equals(root2.data)) {
+            return false;
+        }
+
+        // Recursively check the left and right subtrees
+        if (root1.children.size() != root2.children.size()) {
+            return false;
+        }
+
+        for (int i = 0; i < root1.children.size(); i++) {
+            if (!checkIdentical(root1.children.get(i), root2.children.get(i))) {
+                return false;
+            }
+        }
+
+        // If all the above conditions are satisfied, the trees are structurally identical
+        return true;
+    }
+}
+
+****************************************************************************************************************************
+Next Larger Element
+****************************************************************************************************************************
+
+import java.util.*;
+
+public class Solution {
+
+	public static TreeNode<Integer> findNextLargerNode(TreeNode<Integer> root, int n) {
+		TreeNode<Integer> ans = null;
+		int diff = Integer.MAX_VALUE;
+
+		Queue<TreeNode<Integer>> q = new LinkedList<>();
+		q.offer(root);
+
+		while (!q.isEmpty()) {
+			TreeNode<Integer> curr = q.poll();
+			int currDiff = curr.data - n;
+			if (currDiff > 0 && currDiff < diff) {
+				diff = currDiff;
+				ans = curr;
+			}
+			for (int i = 0; i < curr.children.size(); i++) {
+				q.offer(curr.children.get(i));
+			}
+		}
+
+		return ans;
+	}
+
+}
+
+****************************************************************************************************************************
+Second Larger Element in Tree
+****************************************************************************************************************************
+
+import java.util.*;
+
+public class Solution {
+
+	/*
+	 * TreeNode structure
+	 *
+	 * class TreeNode<T> {
+	 * T data;
+	 * ArrayList<TreeNode<T>> children;
+	 *
+	 * TreeNode(T data){
+	 * this.data = data;
+	 * children = new ArrayList<TreeNode<T>>();
+	 * }
+	 * }
+	 */
+
+	public static TreeNode<Integer> findSecondLargest(TreeNode<Integer> root) {
+
+		if (root == null || root.children.size() == 0) {
+			// if the tree is empty or has only one node, return null
+			return null;
+		}
+
+		// create a priority queue to store the values of all the nodes in the tree
+		PriorityQueue<Integer> queue = new PriorityQueue<>(Collections.reverseOrder());
+
+		// perform a depth-first traversal of the tree and add the values of all the
+		// nodes to the queue
+		traverse(root, queue);
+
+		// remove the largest value from the queue
+		int largest = queue.poll();
+
+		// find the second largest value in the queue
+		int secondLargest = Integer.MIN_VALUE;
+		while (!queue.isEmpty()) {
+			int value = queue.poll();
+			if (value != largest && value > secondLargest) {
+				secondLargest = value;
+			}
+		}
+
+		// if a second largest value was found in the queue, find the node in the tree
+		// with that value
+		if (secondLargest != Integer.MIN_VALUE) {
+			return findNode(root, secondLargest);
+		}
+
+		// if no second largest value was found in the queue, return null
+		return null;
+	}
+
+	private static void traverse(TreeNode<Integer> node, PriorityQueue<Integer> queue) {
+		if (node == null) {
+			return;
+		}
+
+		// add the node's value to the queue
+		queue.offer(node.data);
+
+		// recursively traverse all the node's children
+		for (TreeNode<Integer> child : node.children) {
+			traverse(child, queue);
+		}
+	}
+
+	private static TreeNode<Integer> findNode(TreeNode<Integer> node, int value) {
+		if (node == null) {
+			return null;
+		}
+
+		if (node.data == value) {
+			return node;
+		}
+
+		// recursively search for the node with the given value in the node's children
+		for (TreeNode<Integer> child : node.children) {
+			TreeNode<Integer> found = findNode(child, value);
+			if (found != null) {
+				return found;
+			}
+		}
+
+		return null;
+	}
+}
+
+****************************************************************************************************************************
+Count Leaf Nodes
+****************************************************************************************************************************
+
+
+public class Solution {
+
+/*	TreeNode structure 
+ * 
+ * class TreeNode<T> {
+		T data;
+		ArrayList<TreeNode<T>> children;
+
+		TreeNode(T data){
+			this.data = data;
+			children = new ArrayList<TreeNode<T>>();
+		}
+	}*/
+	
+	public static int countLeafNodes(TreeNode<Integer> root){
+    if(root == null) {
+        return 0;
+    }
+    if(root.children.size() == 0) {
+        return 1;
+    }
+    int count = 0;
+    for(TreeNode<Integer> child : root.children) {
+        count += countLeafNodes(child);
+    }
+    return count;
+}
+}
+
+****************************************************************************************************************************
+Replace node with depth
+****************************************************************************************************************************
+
+import java.util.*;
+/*
+class TreeNode<T> {
+	T data;
+	ArrayList<TreeNode<T>> children;
+
+	TreeNode(T data) {
+		this.data = data;
+		children = new ArrayList<TreeNode<T>>();
+	}
+}
+
+*/
+public class Solution {
+	public static void replaceWithDepthValue(TreeNode<Integer> root) {
+		if (root == null) {
+			return;
+		}
+
+		int depth = 0;
+		Queue<TreeNode<Integer>> queue = new LinkedList<>();
+		queue.add(root);
+
+		while (!queue.isEmpty()) {
+			int size = queue.size();
+			while (size-- > 0) {
+				TreeNode<Integer> node = queue.poll();
+				node.data = depth;
+
+				for (int i = 0; i < node.children.size(); i++) {
+					queue.add(node.children.get(i));
+				}
+			}
+
+			depth++;
+		}
+	}
+}
+
+
