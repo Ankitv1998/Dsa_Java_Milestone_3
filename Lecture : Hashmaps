@@ -40,7 +40,7 @@ public class Solution {
 }
 
 ****************************************************************************************************************************
-Print Intersection
+Print Intersection / array Intersection
 ****************************************************************************************************************************
 
 
@@ -67,29 +67,7 @@ public class Solution {
         }
         System.out.println();
     }
-
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int t = sc.nextInt();
-
-        for (int i = 0; i < t; i++) {
-            int n = sc.nextInt();
-            int[] arr1 = new int[n];
-            for (int j = 0; j < n; j++) {
-                arr1[j] = sc.nextInt();
-            }
-
-            int m = sc.nextInt();
-            int[] arr2 = new int[m];
-            for (int j = 0; j < m; j++) {
-                arr2[j] = sc.nextInt();
-            }
-
-            intersection(arr1, arr2);
-        }
-    }
 }
-
 
 ****************************************************************************************************************************
 Pair Sum to 0
